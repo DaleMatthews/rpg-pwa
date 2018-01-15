@@ -25,6 +25,31 @@
           <v-btn color="primary" flat nuxt to="/inspire">Continue</v-btn>
         </v-card-actions>
       </v-card>
+      <v-card>
+        <v-card-title class="headline">Welcome to the Vuetify + Nuxt.js template</v-card-title>
+        <v-card-text>
+          <p v-for="card in cards">{{card.name}}</p>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" flat nuxt to="/inspire">Continue</v-btn>
+        </v-card-actions>
+      </v-card>
+
     </v-flex>
   </v-layout>
 </template>
+
+<script>
+  import axios from 'axios';
+
+  export default {
+    async asyncData () {
+      let { data } = await axios.get('https://api.magicthegathering.io/v1/cards');
+      return { cards: data.cards };
+    },
+    data () {
+      return {};
+    },
+  };
+</script>

@@ -12,6 +12,8 @@
     "lint": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.vue components layouts middleware pages plugins store"
   },
   "dependencies": {
+    "axios": "^0.17.1",
+    "mtgsdk": "^0.3.0",
     "nuxt": "^1.0.0",
     "vuetify": "^0.17.4"
   },
