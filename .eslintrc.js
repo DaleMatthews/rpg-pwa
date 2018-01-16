@@ -20,6 +20,7 @@ module.exports = {
       functions: 'always-multiline',
     }],
     semi: ['error', 'always'],
+    'space-before-function-paren': 0,
   },
   globals: {}
 }
