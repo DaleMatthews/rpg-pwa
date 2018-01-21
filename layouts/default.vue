@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app :dark="!lightSwitch">
 
     <v-navigation-drawer v-model="drawer" fixed app>
       <v-list>
@@ -17,6 +17,10 @@
     <v-toolbar fixed app>
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click="lightSwitch = !lightSwitch">
+        <v-icon>lightbulb_outline</v-icon>
+      </v-btn>
     </v-toolbar>
 
     <v-content>
@@ -40,6 +44,7 @@
           { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' },
         ],
         title: 'Vuetify.js',
+        lightSwitch: true,
       };
     },
   };

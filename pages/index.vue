@@ -63,9 +63,6 @@
         showCharacterForm: false,
       };
     },
-    created() {
-      // console.log(this.cards[0]);
-    },
   };
 </script>
 
