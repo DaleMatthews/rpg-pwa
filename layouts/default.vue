@@ -20,9 +20,7 @@
     </v-toolbar>
 
     <v-content>
-      <v-container>
-        <nuxt/>
-      </v-container>
+      <nuxt/>
     </v-content>
 
     <v-footer app>
@@ -36,7 +34,7 @@
   export default {
     data() {
       return {
-        drawer: true,
+        drawer: false,
         items: [
           { icon: 'apps', title: 'Welcome', to: '/' },
           { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' },
