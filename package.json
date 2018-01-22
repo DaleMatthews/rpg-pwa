@@ -1,7 +1,7 @@
 {
-  "name": "deck-builder-pwa",
+  "name": "rpg-pwa",
   "version": "1.0.0",
-  "description": "Vuetify PWA for building decks",
+  "description": "A progressive web app for RPG character combat tracking",
   "author": "DaleMatthews <dem7w2@mst.edu>",
   "private": true,
   "scripts": {
@@ -12,6 +12,7 @@
     "lint": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.vue components layouts middleware pages plugins store"
   },
   "dependencies": {
+    "@nuxtjs/pwa": "^2.0.5",
     "axios": "^0.17.1",
     "nuxt": "^1.0.0",
     "vuetify": "^0.17.4"

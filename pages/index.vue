@@ -17,8 +17,8 @@
         </v-card>
       </v-dialog>
 
-      <v-flex @click.stop="showCharacterForm = true" xs12 sm6 md4 lg3>
-        <v-card hover class="d-flex" height="330px">
+      <v-flex xs12 sm6 md4 lg3>
+        <v-card hover class="d-flex" height="330px" @click.stop="showCharacterForm = true">
           <v-layout column justify-center>
             <v-card-text class="text-xs-center"><v-icon class="xxl">add</v-icon></v-card-text>
           </v-layout>

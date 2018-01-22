@@ -1,7 +1,7 @@
 <template>
   <v-app :dark="!lightSwitch">
 
-    <v-navigation-drawer v-model="drawer" fixed app>
+    <v-navigation-drawer v-model="drawer" stateless fixed app>
       <v-list>
         <v-list-tile router :to="item.to" :key="i" v-for="(item, i) in items" exact>
           <v-list-tile-action>

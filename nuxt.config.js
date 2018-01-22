@@ -4,11 +4,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'deck-builder-pwa',
+    title: 'rpg-pwa',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Vuetify PWA for building decks' },
+      { hid: 'description', name: 'description', content: 'A progressive web app for RPG character combat tracking' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -16,6 +16,7 @@ module.exports = {
     ],
   },
   plugins: ['~/plugins/vuetify.js'],
+  modules: ['@nuxtjs/pwa'],
   css: [
     '~/assets/style/app.styl',
   ],

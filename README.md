@@ -1,6 +1,6 @@
-# deck-builder-pwa
+# rpg-pwa
 
-> Vuetify PWA for building decks
+> Nuxt/Vuetify PWA for tracking combat moves in D&D 5e
 
 ## Build Setup
 
