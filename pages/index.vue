@@ -7,13 +7,8 @@
         <v-card>
           <v-card-title class="headline">New Character</v-card-title>
           <v-card-text>
-            <CharacterForm></CharacterForm>
+            <CharacterForm @close="showCharacterForm = false"></CharacterForm>
           </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="showCharacterForm = false">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="showCharacterForm = false">Create</v-btn>
-          </v-card-actions>
         </v-card>
       </v-dialog>
 
@@ -25,7 +20,7 @@
         </v-card>
       </v-flex>
 
-      <v-flex xs12 sm6 md4 lg3 v-for="c in characters" :key="c.name">
+      <v-flex xs12 sm6 md4 lg3 v-for="c in $store.state.characters" :key="c.name">
         <v-card hover height="330px" router :to="'/character/' + c.name">
           <v-card-media :src="c.img" height="270px"></v-card-media>
           <v-card-title class="headline">{{c.name}}</v-card-title>

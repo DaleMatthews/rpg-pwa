@@ -6,6 +6,10 @@
             [
                 "node_modules"
             ],
+            "file_exclude_patterns":
+            [
+                "package-lock.json"
+            ],
             "path": "."
         }
     ]

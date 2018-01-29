@@ -1,9 +1,11 @@
+// import localforage from 'localforage';
+
 export const state = () => ({
-  sidebar: false,
+  characters: [],
 });
 
 export const mutations = {
-  toggleSidebar(state) {
-    state.sidebar = !state.sidebar;
+  addCharacter(state, { name, img }) {
+    state.characters.push({ name, img });
   },
 };
