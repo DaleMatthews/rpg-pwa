@@ -47,5 +47,8 @@
         lightSwitch: true,
       };
     },
+    beforeMount() {
+      this.$store.dispatch('getCharacters');
+    },
   };
 </script>

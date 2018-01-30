@@ -43,7 +43,7 @@
       },
       submit () {
         if (this.$refs.form.validate() && this.imgSource) {
-          this.$store.commit('addCharacter', { name: this.name, img: this.imgSource });
+          this.$store.dispatch('addCharacter', { name: this.name, img: this.imgSource });
           this.$emit('close');
         }
       },

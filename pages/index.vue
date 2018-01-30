@@ -43,8 +43,10 @@
       CharacterForm,
     },
     // async asyncData() {
-    //   let { data } = await axios.get('https://api.magicthegathering.io/v1/cards');
-    //   return { cards: data.cards };
+    //   console.log('asyncData');
+    // },
+    // fetch() {
+    //   console.log('fetch');
     // },
     data() {
       return {
