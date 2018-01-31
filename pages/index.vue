@@ -36,8 +36,6 @@
   // import localforage from 'localforage';
   import CharacterForm from '~/components/character-form';
 
-  // localforage.removeItem('rand').then(console.log);
-
   export default {
     components: {
       CharacterForm,
