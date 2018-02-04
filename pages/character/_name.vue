@@ -29,13 +29,13 @@
       <v-flex pa-4 xs9>
         <template v-if="action">
           <div class="display-1">{{ action.name }}</div>
-          <v-layout my-4 wrap align-content-start>
+          <v-layout py-4 wrap align-content-start>
             <v-flex pa-2 xs4 md3 v-for="a in actionData" :key="a.title">
               <div class="title">{{ a.title }}</div>
               <div class="body-1">{{ a.value }}</div>
             </v-flex>
             <v-flex pt-3 class="subheading" v-for="d in action.desc" :key="$index">{{ d }}</v-flex>
-            <v-flex pt-3 class="subheading"><strong>At higher levels: </strong>{{ action.higher_level.join('\n') }}</v-flex>
+            <v-flex pt-3 class="subheading"><strong>At higher levels: </strong>{{ action.higher_level.join(' ') }}</v-flex>
           </v-layout>
         </template>
       </v-flex>

@@ -1,7 +1,7 @@
 <template>
   <v-app :dark="!lightSwitch">
 
-    <v-navigation-drawer v-model="drawer" stateless fixed app>
+    <v-navigation-drawer v-model="drawer" stateless fixed app disable-resize-watcher disable-route-watcher>
       <v-list>
         <v-list-tile router :to="item.to" :key="i" v-for="(item, i) in items" exact>
           <v-list-tile-action>
@@ -28,7 +28,7 @@
     </v-content>
 
     <v-footer app>
-      <span>&copy; 2017</span>
+      © {{ new Date().getFullYear() }} Dale Matthews
     </v-footer>
 
   </v-app>
