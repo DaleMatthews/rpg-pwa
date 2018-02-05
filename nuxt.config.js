@@ -16,7 +16,7 @@ module.exports = {
     ],
   },
   plugins: ['~/plugins/vuetify.js'],
-  modules: ['@nuxtjs/pwa'],
+  modules: ['@nuxtjs/pwa', '@nuxtjs/font-awesome'],
   css: [
     '~/assets/style/app.styl',
   ],

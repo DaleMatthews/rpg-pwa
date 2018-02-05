@@ -28,7 +28,7 @@
     </v-content>
 
     <v-footer app>
-      © {{ new Date().getFullYear() }} Dale Matthews
+      <span class="pl-2">© {{ new Date().getFullYear() }} Dale Matthews</span>
     </v-footer>
 
   </v-app>
@@ -44,7 +44,7 @@
           { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' },
         ],
         title: 'Vuetify.js',
-        lightSwitch: true,
+        lightSwitch: false,
       };
     },
     beforeMount() {

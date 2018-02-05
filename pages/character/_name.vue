@@ -1,12 +1,30 @@
 <template>
   <v-container fill-height fluid pa-0>
+
+    <v-dialog v-model="showAddActionForm" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">New Action</v-card-title>
+        <v-card-text>
+
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
     <v-layout col justify-left align-top>
-      <v-flex d-flex xs3 pl-0 fill-height >
+      <v-flex d-flex xs3 pl-0 fill-height>
+
         <v-list>
+          <v-list-tile class="light-blue" @click="showAddActionForm = true" v-ripple>
+            <v-list-tile-action>
+              <v-icon medium>add</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>Add New Action</v-list-tile-content>
+          </v-list-tile>
+
           <v-list-group v-for="item in categories" :value="item.active" :key="item.title">
             <v-list-tile slot="item" @click="">
               <v-list-tile-action>
-                <v-icon>add</v-icon>
+                <v-icon medium>{{ item.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
@@ -15,13 +33,10 @@
                 <v-icon>keyboard_arrow_down</v-icon>
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile v-for="subItem in item.items" :key="subItem.name" @click="getAbility(subItem)">
+            <v-list-tile v-for="subItem in item.items" :key="subItem.name" @click="getAbility(subItem)" v-ripple>
               <v-list-tile-content>
                 <v-list-tile-title>{{ subItem.name }}</v-list-tile-title>
               </v-list-tile-content>
-              <v-list-tile-action>
-                <v-icon>remove</v-icon>
-              </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
         </v-list>
@@ -30,12 +45,18 @@
         <template v-if="action">
           <div class="display-1">{{ action.name }}</div>
           <v-layout py-4 wrap align-content-start>
+
             <v-flex pa-2 xs4 md3 v-for="a in actionData" :key="a.title">
               <div class="title">{{ a.title }}</div>
               <div class="body-1">{{ a.value }}</div>
             </v-flex>
-            <v-flex pt-3 class="subheading" v-for="d in action.desc" :key="$index">{{ d }}</v-flex>
-            <v-flex pt-3 class="subheading"><strong>At higher levels: </strong>{{ action.higher_level.join(' ') }}</v-flex>
+
+            <v-flex pt-3 class="subheading" v-for="d in action.desc">{{ d }}</v-flex>
+
+            <v-flex pt-3 class="subheading" v-if="action.higher_level">
+              <strong>At higher levels: </strong>{{ action.higher_level.join(' ') }}
+            </v-flex>
+
           </v-layout>
         </template>
       </v-flex>
@@ -51,9 +72,11 @@
     data() {
       return {
         action: null,
+        showAddActionForm: false,
         categories: [
           {
             title: 'Standard Actions',
+            icon: 'fa-book',
             items: [
               {
                 name: 'Asdf',
@@ -64,16 +87,18 @@
           },
           {
             title: 'Actions',
+            icon: 'fa-crosshairs',
             items: [
               {
                 name: 'Asdf',
-                path: 'features',
+                path: 'spells',
                 index: 27,
               },
             ],
           },
           {
             title: 'Bonus Actions',
+            icon: 'exposure_plus_1',
             items: [
               {
                 name: 'Asdf',
@@ -84,10 +109,11 @@
           },
           {
             title: 'Reactions',
+            icon: 'refresh',
             items: [
               {
                 name: 'Asdf',
-                path: 'features',
+                path: 'spells',
                 index: 29,
               },
             ],
@@ -117,6 +143,9 @@
             console.log(data);
             this.action = data;
           });
+      },
+      addNewAction() {
+        console.log('Action added');
       },
     },
   };
