@@ -20,6 +20,7 @@
     </v-dialog>
 
     <v-layout col justify-left align-top>
+
       <v-flex d-flex xs3 pl-0 fill-height>
 
         <v-list>
@@ -50,27 +51,13 @@
             </v-list-tile>
           </v-list-group>
         </v-list>
+
       </v-flex>
+
       <v-flex pa-4 xs9>
-        <template v-if="action">
-          <div class="display-1">{{ action.name }}</div>
-          <v-layout py-4 wrap align-content-start>
-
-            <!-- TODO separate into component and handle non-spells -->
-            <v-flex pa-2 xs4 md3 v-for="a in actionData" :key="a.title">
-              <div class="title">{{ a.title }}</div>
-              <div class="body-1">{{ a.value }}</div>
-            </v-flex>
-
-            <v-flex pt-3 class="subheading" v-for="d in action.desc">{{ d }}</v-flex>
-
-            <v-flex pt-3 class="subheading" v-if="action.higher_level">
-              <strong>At higher levels: </strong>{{ action.higher_level.join(' ') }}
-            </v-flex>
-
-          </v-layout>
-        </template>
+        <action-display :action="action"></action-display>
       </v-flex>
+
     </v-layout>
   </v-container>
 </template>
@@ -78,8 +65,10 @@
 <script>
   import axios from 'axios';
   import { find } from 'lodash';
+  import ActionDisplay from '~/components/action-display';
 
   export default {
+    components: { ActionDisplay },
     async asyncData() {
       // TODO get non-spells too
       const { data } = await axios.get('http://www.dnd5eapi.co/api/spells');
