@@ -24,6 +24,9 @@
     </v-toolbar>
 
     <v-content>
+      <v-alert type="error" :value="$store.state.error" transition="scale-transition">
+        <span class="subheading">{{ $store.state.errorText }}</span>
+      </v-alert>
       <nuxt/>
     </v-content>
 

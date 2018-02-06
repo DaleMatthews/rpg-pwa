@@ -108,12 +108,12 @@
     },
     methods: {
       getAction(action, category) {
-        category.active = true;
-        if (action.desc) this.action = action;
+        if (category) category.active = true;
+        if (action && action.desc) this.action = action;
         else {
           axios.get(`http://www.dnd5eapi.co/api/${action.path}/${action.index}`)
             .then(({ data }) => {
-              this.action = data;
+              if (data && data.desc) this.action = data;
             });
         }
       },
@@ -124,8 +124,11 @@
             this.gettingAction = false;
             this.newSpell = '';
             this.showAddActionForm = false;
-            this.getAction(action, this.categories.find(c => c.title === action.category));
+            if (action) this.getAction(action, this.categories.find(c => c.title === action.category));
           });
+      },
+      deleteAction() {
+        // TODO implement deleteAction
       },
     },
   };

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import localforage from 'localforage';
 
-const getActionCategory = (action) => { // TODO separate into resource file
+const getActionCategory = (action) => {
   switch (action.casting_time) {
     case '1 action':
       return 'Actions';
@@ -16,6 +16,8 @@ const getActionCategory = (action) => { // TODO separate into resource file
 
 export const state = () => ({
   characters: [],
+  errorText: '',
+  error: false,
 });
 
 export const mutations = {
@@ -35,6 +37,14 @@ export const mutations = {
 
     state.characters.splice(i, 1, char);
   },
+  addError(state, err) {
+    state.errorText = err;
+    state.error = true;
+  },
+  removeError(state) {
+    state.errorText = '';
+    state.error = false;
+  },
 };
 
 export const actions = {
@@ -50,7 +60,7 @@ export const actions = {
       return values || [];
     });
   },
-  addActionToCharacter({ commit, state }, { actionUrl, character }) {
+  addActionToCharacter({ commit, state, dispatch }, { actionUrl, character }) {
     return axios.get(actionUrl)
       .then(({ data }) => {
         const action = { name: data.name, path: 'spells', index: data.index, category: getActionCategory(data) };
@@ -60,8 +70,27 @@ export const actions = {
         localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
 
         return action;
-      }).catch((err) => {
-        console.log(err); // TODO add error notification
-      });
+      }).catch(err => dispatch('addAxiosError', err));
+  },
+  addAxiosError({ commit }, err) {
+    if (err.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.headers);
+    } else if (err.request) {
+      // The request was made but no response was received
+      // `err.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log(err.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log('Error', err.message);
+    }
+    console.log(err.config);
+
+    commit('addError', 'A network error occurred');
+    setTimeout(() => commit('removeError'), 3000);
   },
 };

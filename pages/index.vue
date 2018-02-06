@@ -3,6 +3,7 @@
     <h1 class="display-1">Characters</h1>
     <v-layout row wrap justify-left align-center>
 
+      <!-- TODO implement cancel -->
       <v-dialog v-model="showCharacterForm" persistent max-width="500px">
         <v-card>
           <v-card-title class="headline">New Character</v-card-title>
@@ -32,34 +33,21 @@
 </template>
 
 <script>
-  // import axios from 'axios';
-  // import localforage from 'localforage';
   import CharacterForm from '~/components/character-form';
 
   export default {
     components: {
       CharacterForm,
     },
-    // async asyncData() {
-    //   console.log('asyncData');
-    // },
-    // fetch() {
-    //   console.log('fetch');
-    // },
     data() {
       return {
-        characters: [
-          { img: '/beauregard.jpg', name: 'Beauregard', description: 'Human Monk' },
-          { img: '/caleb.jpg', name: 'Caleb', description: 'Human Wizard' },
-          { img: '/fjord.jpg', name: 'Fjord', description: 'Half-Orc Warlock' },
-          { img: '/jester.jpg', name: 'Jester', description: 'Tiefling Cleric' },
-          { img: '/mollymauk.jpg', name: 'Mollymauk', description: 'Tiefling Blood Hunter' },
-          { img: '/nott.jpg', name: 'Nott', description: 'Goblin Rogue' },
-          { img: '/yasha.jpg', name: 'Yasha', description: 'Aasimar Barbarian' },
-          { img: '/zink.png', name: 'Zink', description: 'Gnome Warlock' },
-        ],
         showCharacterForm: false,
       };
+    },
+    methods: {
+      deleteCharacter() {
+        // TODO implement deleteCharacter
+      },
     },
   };
 </script>
