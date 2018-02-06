@@ -44,7 +44,7 @@
                 <v-icon>keyboard_arrow_down</v-icon>
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile v-for="subItem in item.items" :key="subItem.name" @click="getAction(subItem)" v-ripple>
+            <v-list-tile v-for="subItem in item.items" :key="subItem.name" @click="getAction(subItem, item)" v-ripple>
               <v-list-tile-content>
                 <v-list-tile-title>{{ subItem.name }}</v-list-tile-title>
               </v-list-tile-content>
@@ -77,60 +77,54 @@
     },
     data() {
       return {
-        action: null,
+        action: {},
         showAddActionForm: false,
         newSpell: '',
         gettingAction: false,
       };
     },
     computed: {
-      categories() {
+      categories() { // TODO redo with lodash groupby
         const allActions = this.character.actions;
         if (!allActions) return [];
 
-        const actions = allActions.filter(a => a.type === 'Action');
-        const bonusActions = allActions.filter(a => a.type === 'Bonus Action');
-        const reactions = allActions.filter(a => a.type === 'Reaction');
-        const others = allActions.filter(a => a.type === 'Other');
+        const actions = allActions.filter(a => a.category === 'Actions');
+        const bonusActions = allActions.filter(a => a.category === 'Bonus Actions');
+        const reactions = allActions.filter(a => a.category === 'Reactions');
+        const others = allActions.filter(a => a.category === 'Others');
 
         return [
-          { title: 'Standard Actions', icon: 'fa-book', items: [] }, // TODO create these
-          { title: 'Actions', icon: 'fa-crosshairs', items: actions },
-          { title: 'Bonus Actions', icon: 'exposure_plus_1', items: bonusActions },
-          { title: 'Reactions', icon: 'refresh', items: reactions },
-          { title: 'Others', icon: 'timer', items: others },
+          // TODO create standard actions
+          { title: 'Standard Actions', active: true, icon: 'fa-book', items: [] },
+          { title: 'Actions', active: false, icon: 'fa-crosshairs', items: actions },
+          { title: 'Bonus Actions', active: false, icon: 'exposure_plus_1', items: bonusActions },
+          { title: 'Reactions', active: false, icon: 'refresh', items: reactions },
+          { title: 'Others', active: false, icon: 'timer', items: others },
         ];
       },
       character() {
         return find(this.$store.state.characters, { name: this.$route.params.name }) || {};
       },
-      actionData() {
-        return [
-          { title: 'Level', value: this.action.level },
-          { title: 'Casting Time', value: this.action.casting_time },
-          { title: 'Range', value: this.action.range },
-          { title: 'Components', value: this.action.components.join(', ') },
-          { title: 'Duration', value: this.action.duration },
-          { title: 'School', value: this.action.school.name },
-        ];
-      },
     },
     methods: {
-      getAction({ url, path, index }) {
-        // TODO set category.active
-        axios.get(url || `http://www.dnd5eapi.co/api/${path}/${index}`)
-          .then(({ data }) => {
-            this.action = data;
-          });
+      getAction(action, category) {
+        category.active = true;
+        if (action.desc) this.action = action;
+        else {
+          axios.get(`http://www.dnd5eapi.co/api/${action.path}/${action.index}`)
+            .then(({ data }) => {
+              this.action = data;
+            });
+        }
       },
       addNewAction(actionUrl) {
         this.gettingAction = true;
         this.$store.dispatch('addActionToCharacter', { actionUrl, character: this.character })
-          .then(() => {
+          .then((action) => {
             this.gettingAction = false;
             this.newSpell = '';
             this.showAddActionForm = false;
-            this.getAction({ url: actionUrl });
+            this.getAction(action, this.categories.find(c => c.title === action.category));
           });
       },
     },

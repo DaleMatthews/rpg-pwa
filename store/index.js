@@ -1,16 +1,16 @@
 import axios from 'axios';
 import localforage from 'localforage';
 
-const getActionType = (action) => { // TODO separate into resource file
+const getActionCategory = (action) => { // TODO separate into resource file
   switch (action.casting_time) {
     case '1 action':
-      return 'Action';
+      return 'Actions';
     case '1 bonus action':
-      return 'Bonus Action';
+      return 'Bonus Actions';
     case '1 reaction':
-      return 'Reaction';
+      return 'Reactions';
     default:
-      return 'Other';
+      return 'Others';
   }
 };
 
@@ -27,11 +27,11 @@ export const mutations = {
   },
   addActionToCharacter(state, { character, action }) {
     const { name } = character;
-    const { path, index, type } = action;
+    const { path, index, category } = action;
     let i = state.characters.findIndex(c => c.name === name);
     let char = { ...state.characters[i] };
 
-    char.actions = char.actions.filter(s => s.path !== path || s.index !== index).concat([{ name: action.name, path, index, type }]);
+    char.actions = char.actions.filter(s => s.path !== path || s.index !== index).concat([{ name: action.name, path, index, category }]);
 
     state.characters.splice(i, 1, char);
   },
@@ -53,11 +53,13 @@ export const actions = {
   addActionToCharacter({ commit, state }, { actionUrl, character }) {
     return axios.get(actionUrl)
       .then(({ data }) => {
-        const action = { name: data.name, path: 'spells', index: data.index, type: getActionType(data) };
+        const action = { name: data.name, path: 'spells', index: data.index, category: getActionCategory(data) };
 
         commit('addActionToCharacter', { character, action });
 
-        return localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
+        localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
+
+        return action;
       }).catch((err) => {
         console.log(err); // TODO add error notification
       });

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="action">
+  <div v-if="action && action.desc">
     <div class="display-1">{{ action.name }}</div>
     <v-layout py-4 wrap align-content-start>
 
