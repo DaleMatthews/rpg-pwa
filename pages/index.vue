@@ -25,8 +25,9 @@
           <v-card-media :src="c.img" height="270px">
             <v-layout column align-end>
               <v-flex>
+
                 <v-dialog v-model="showDeleteForm" max-width="290">
-                  <v-btn flat icon slot="activator" @click.prevent=""><v-icon>cancel</v-icon></v-btn>
+                  <v-btn flat icon color="white" slot="activator" @click.prevent=""><v-icon>cancel</v-icon></v-btn>
                   <v-card>
                     <v-card-title class="headline">Delete Character?</v-card-title>
                     <v-card-actions>
@@ -36,10 +37,11 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+
               </v-flex>
             </v-layout>
           </v-card-media>
-          <v-card-title class="headline">{{c.name}}</v-card-title>
+          <v-card-title class="headline">{{ c.name }}</v-card-title>
         </v-card>
       </v-flex>
 

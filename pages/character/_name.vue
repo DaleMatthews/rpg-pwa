@@ -64,7 +64,7 @@
 
 <script>
   import axios from 'axios';
-  import { find } from 'lodash';
+  import { find, groupBy, sortBy } from 'lodash';
   import ActionDisplay from '~/components/action-display';
 
   export default {
@@ -84,22 +84,16 @@
       };
     },
     computed: {
-      categories() { // TODO redo with lodash groupby
-        const allActions = this.character.actions;
-        if (!allActions) return [];
-
-        const actions = allActions.filter(a => a.category === 'Actions');
-        const bonusActions = allActions.filter(a => a.category === 'Bonus Actions');
-        const reactions = allActions.filter(a => a.category === 'Reactions');
-        const others = allActions.filter(a => a.category === 'Others');
+      categories() {
+        const c = groupBy(sortBy(this.character.actions, a => a.name), a => a.category);
 
         return [
           // TODO create standard actions
           { title: 'Standard Actions', active: true, icon: 'fa-book', items: [] },
-          { title: 'Actions', active: false, icon: 'fa-crosshairs', items: actions },
-          { title: 'Bonus Actions', active: false, icon: 'exposure_plus_1', items: bonusActions },
-          { title: 'Reactions', active: false, icon: 'refresh', items: reactions },
-          { title: 'Others', active: false, icon: 'timer', items: others },
+          { title: 'Actions', active: false, icon: 'fa-crosshairs', items: c['Actions'] || [] },
+          { title: 'Bonus Actions', active: false, icon: 'exposure_plus_1', items: c['Bonus Actions'] || [] },
+          { title: 'Reactions', active: false, icon: 'refresh', items: c['Reactions'] || [] },
+          { title: 'Others', active: false, icon: 'timer', items: c['Others'] || [] },
         ];
       },
       character() {
