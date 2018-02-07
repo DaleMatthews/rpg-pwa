@@ -15,7 +15,7 @@ const getActionCategory = (action) => {
 };
 
 export const state = () => ({
-  characters: [],
+  characters: [], // TODO need unique id on characters, will probably do with firebase db
   errorText: '',
   error: false,
 });
@@ -26,6 +26,9 @@ export const mutations = {
   },
   setCharacters(state, characters) {
     state.characters = [...characters];
+  },
+  deleteCharacter(state, { name }) {
+    state.characters = state.characters.filter(c => c.name !== name);
   },
   addActionToCharacter(state, { character, action }) {
     const { name } = character;
@@ -59,6 +62,11 @@ export const actions = {
       if (values) commit('setCharacters', values);
       return values || [];
     });
+  },
+  deleteCharacter({ state, commit }, character) {
+    commit('deleteCharacter', character);
+
+    return localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
   },
   addActionToCharacter({ commit, state, dispatch }, { actionUrl, character }) {
     return axios.get(actionUrl)
