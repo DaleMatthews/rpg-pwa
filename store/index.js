@@ -30,6 +30,10 @@ export const mutations = {
   deleteCharacter(state, { name }) {
     state.characters = state.characters.filter(c => c.name !== name);
   },
+  updateCharacter(state, { character, update }) {
+    let target = state.characters.find(c => c.name === character.name);
+    Object.assign(target, update);
+  },
   addActionToCharacter(state, { character, action }) {
     const { name } = character;
     const { path, index, category } = action;
@@ -65,6 +69,11 @@ export const actions = {
   },
   deleteCharacter({ state, commit }, character) {
     commit('deleteCharacter', character);
+
+    return localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
+  },
+  updateCharacter({ state, commit }, { character, update }) {
+    commit('updateCharacter', { character, update });
 
     return localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
   },

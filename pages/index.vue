@@ -3,16 +3,16 @@
     <h1 class="display-1">Characters</h1>
     <v-layout row wrap justify-left align-center>
 
-      <v-dialog v-model="showCharacterForm" max-width="500px">
+      <v-dialog v-model="showCharacterForm" persistent max-width="370px">
         <v-card>
-          <v-card-title class="headline">New Character</v-card-title>
+          <v-card-title class="headline">{{ character ? 'Edit Character' : 'New Character' }}</v-card-title>
           <v-card-text>
-            <CharacterForm @close="showCharacterForm = false"></CharacterForm>
+            <CharacterForm :character="character" @cancel="cancelCharacterForm"></CharacterForm>
           </v-card-text>
         </v-card>
       </v-dialog>
 
-      <v-flex @click.stop="showCharacterForm = true" xs12 sm6 md4 lg3>
+      <v-flex @click.stop="newCharacter()" xs12 sm6 md4 lg3>
         <v-card hover class="d-flex" height="330px">
           <v-layout column justify-center>
             <v-card-text class="text-xs-center"><v-icon class="xxl">add</v-icon></v-card-text>
@@ -25,19 +25,7 @@
           <v-card-media :src="c.img" height="270px">
             <v-layout column align-end>
               <v-flex>
-
-                <v-dialog v-model="showDeleteForm" max-width="290">
-                  <v-btn flat icon color="white" slot="activator" @click.prevent=""><v-icon>cancel</v-icon></v-btn>
-                  <v-card>
-                    <v-card-title class="headline">Delete Character?</v-card-title>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn flat @click.native="showDeleteForm = false">Cancel</v-btn>
-                      <v-btn color="error" flat @click.native="deleteCharacter(c)">Delete</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-
+                <v-btn flat icon color="white" @click.prevent="editCharacter(c)"><v-icon>edit</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-card-media>
@@ -56,16 +44,22 @@
     components: {
       CharacterForm,
     },
-    data() {
-      return {
-        showCharacterForm: false,
-        showDeleteForm: false,
-      };
-    },
+    data: () => ({
+      character: null,
+      showCharacterForm: false,
+    }),
     methods: {
-      deleteCharacter(c) {
-        this.showDeleteForm = false;
-        this.$store.dispatch('deleteCharacter', c);
+      newCharacter() {
+        this.character = null;
+        this.showCharacterForm = true;
+      },
+      editCharacter(c) {
+        this.character = c;
+        this.showCharacterForm = true;
+      },
+      cancelCharacterForm() {
+        this.character = null;
+        this.showCharacterForm = false;
       },
     },
   };
