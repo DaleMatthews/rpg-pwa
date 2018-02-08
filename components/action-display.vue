@@ -1,6 +1,8 @@
 <template functional>
   <div v-if="props.action && props.action.desc">
-    <div class="display-1">{{ props.action.name }}</div>
+    <slot name="header">
+      <div class="display-1">{{ props.action.name }}</div>
+    </slot>
     <v-layout py-4 wrap align-content-start>
 
       <!-- spell properties -->

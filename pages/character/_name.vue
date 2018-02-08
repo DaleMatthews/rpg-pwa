@@ -44,6 +44,16 @@
                 <v-icon>keyboard_arrow_down</v-icon>
               </v-list-tile-action>
             </v-list-tile>
+            <v-dialog v-model="showDeleteForm" max-width="290">
+              <v-card>
+                <v-card-title class="headline">Remove Action?</v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn flat @click.native="showDeleteForm = false">Cancel</v-btn>
+                  <v-btn color="error" flat @click.native="">Remove</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
             <v-list-tile v-for="subItem in item.items" :key="subItem.name" @click="getAction(subItem, item)" v-ripple>
               <v-list-tile-content>
                 <v-list-tile-title>{{ subItem.name }}</v-list-tile-title>
@@ -55,7 +65,18 @@
       </v-flex>
 
       <v-flex pa-4 xs9>
-        <action-display :action="action"></action-display>
+        <action-display :action="action">
+          <v-layout slot="header">
+            <v-flex>
+              <div class="display-1">{{ action.name }}</div>
+            </v-flex>
+            <v-layout column align-end>
+              <v-flex>
+                <v-btn v-if="action" @click.stop="showDeleteForm = true">remove</v-btn>
+              </v-flex>
+            </v-layout>
+          </v-layout>>
+        </action-display>
       </v-flex>
 
     </v-layout>
@@ -79,6 +100,7 @@
       return {
         action: {},
         showAddActionForm: false,
+        showDeleteForm: false,
         newSpell: '',
         gettingAction: false,
       };
