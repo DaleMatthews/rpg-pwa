@@ -64,9 +64,3 @@
     },
   };
 </script>
-
-<style>
-.icon.xxl {
-  font-size: 16em;
-}
-</style>

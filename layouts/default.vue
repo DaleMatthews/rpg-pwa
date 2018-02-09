@@ -1,7 +1,7 @@
 <template>
   <v-app :dark="!lightSwitch">
 
-    <v-navigation-drawer v-model="drawer" stateless fixed app disable-resize-watcher disable-route-watcher>
+    <v-navigation-drawer v-model="drawer" mini-variant fixed app>
       <v-list>
         <v-list-tile router :to="item.to" :key="i" v-for="(item, i) in items" exact>
           <v-list-tile-action>
@@ -16,7 +16,7 @@
 
     <v-toolbar fixed app>
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>rpg-pwa</v-toolbar-title>
+      <v-toolbar-title>D&D Combat</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click="lightSwitch = !lightSwitch">
         <v-icon>lightbulb_outline</v-icon>
@@ -43,8 +43,8 @@
       return {
         drawer: false,
         items: [
-          { icon: 'apps', title: 'Welcome', to: '/' },
-          { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' },
+          { icon: 'people', title: 'Characters', to: '/' },
+          { icon: 'info', title: 'About', to: '/about' },
         ],
         lightSwitch: false,
       };
@@ -54,3 +54,9 @@
     },
   };
 </script>
+
+<style>
+.icon.xxl {
+  font-size: 16em;
+}
+</style>
