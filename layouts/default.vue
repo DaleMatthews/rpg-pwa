@@ -32,6 +32,13 @@
 
     <v-footer app>
       <span class="pl-2">© {{ new Date().getFullYear() }} Dale Matthews</span>
+      <v-spacer></v-spacer>
+      <a href="https://github.com/DaleMatthews/rpg-pwa">
+        <v-icon medium class="px-3" color="blue darken-2">fa-github</v-icon>
+      </a>
+      <a href="http://recurse.me">
+        <v-icon medium class="px-3" color="deep-orange darken-1">fa-rss</v-icon>
+      </a>
     </v-footer>
 
   </v-app>
