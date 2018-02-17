@@ -9,7 +9,8 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.vue components layouts middleware pages plugins store"
+    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.vue components layouts middleware pages plugins store",
+    "zip": "git archive -v -o rpg-pwa.zip --format=zip HEAD"
   },
   "dependencies": {
     "@nuxtjs/font-awesome": "^1.0.3",
