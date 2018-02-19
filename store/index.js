@@ -1,5 +1,6 @@
 import axios from 'axios';
 import localforage from 'localforage';
+import EXAMPLE_CHARACTER from '~/assets/exampleCharacter';
 
 const getActionCategory = (action) => {
   switch (action.casting_time) {
@@ -55,16 +56,16 @@ export const mutations = {
 };
 
 export const actions = {
-  addCharacter({ state, commit }, { name, img }) {
-    const newChar = { name, img, actions: [] };
+  addCharacter({ state, commit }, { name, img, actions }) {
+    const newChar = { name, img, actions: actions || [] };
     commit('addCharacter', newChar);
 
     return localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
   },
-  getCharacters({ commit }) {
+  getCharacters({ commit, dispatch }) {
     return localforage.getItem('characters').then(values => {
-      if (values) commit('setCharacters', values);
-      return values || [];
+      if (values && values.length) commit('setCharacters', values);
+      else return dispatch('addCharacter', EXAMPLE_CHARACTER);
     });
   },
   deleteCharacter({ state, commit }, character) {
