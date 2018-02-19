@@ -51,6 +51,8 @@ export const actions = {
     return localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
   },
   getCharacters({ commit, dispatch }) {
+    localforage.clear(); // TODO remove this to persist data
+
     return localforage.getItem('characters').then(values => {
       if (values && values.length) commit('setCharacters', values);
       else return dispatch('addCharacter', EXAMPLE_CHARACTER);

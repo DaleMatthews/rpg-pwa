@@ -41,6 +41,11 @@
       </a>
     </v-footer>
 
+    <v-snackbar :timeout="20000" multi-line color="info" v-model="snackbar">
+      Saving is currently disabled; your data will be lost upon reloading
+      <v-btn @click.native="snackbar = false">Bummer</v-btn>
+    </v-snackbar>
+
   </v-app>
 </template>
 
@@ -54,6 +59,7 @@
           { icon: 'info', title: 'About', to: '/about' },
         ],
         lightSwitch: false,
+        snackbar: true,
       };
     },
     beforeMount() {

@@ -76,13 +76,16 @@
               character: this.character,
               update: { name: this.editable.name, img: this.editable.img },
             });
-          } else this.$store.dispatch('addCharacter', this.editable);
-          this.$emit('cancel');
+          } else {
+            this.$store.dispatch('addCharacter', this.editable);
+          }
+
+          this.cancel();
         }
       },
       cancel () {
-        this.$refs.form.reset();
         this.editable = { ...CHARACTER_TEMPLATE };
+        this.$refs.form.reset();
         this.$emit('cancel');
       },
       deleteCharacter() {
