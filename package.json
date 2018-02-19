@@ -12,6 +12,9 @@
     "lint": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.vue components layouts middleware pages plugins store",
     "zip": "git archive -v -o rpg-pwa.zip --format=zip HEAD"
   },
+  "now": {
+    "alias": "rpgcombat.recurse.me"
+  },
   "dependencies": {
     "@nuxtjs/font-awesome": "^1.0.3",
     "@nuxtjs/pwa": "^2.0.5",
