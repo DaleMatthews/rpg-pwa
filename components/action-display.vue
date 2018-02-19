@@ -1,5 +1,5 @@
 <template functional>
-  <div v-if="props.action && props.action.desc">
+  <div v-if="props.action && props.action.description">
     <slot name="header">
       <div class="display-1">{{ props.action.name }}</div>
     </slot>
@@ -20,7 +20,7 @@
       </v-flex>
       <v-flex pa-2 xs4 md3>
         <div class="title">Components</div>
-        <div class="body-1">{{ props.action.components.join(', ') }}</div>
+        <div class="body-1">{{ props.action.components.raw }}</div>
       </v-flex>
       <v-flex pa-2 xs4 md3>
         <div class="title">Duration</div>
@@ -28,13 +28,13 @@
       </v-flex>
       <v-flex pa-2 xs4 md3>
         <div class="title">School</div>
-        <div class="body-1">{{ props.action.school.name }}</div>
+        <div class="body-1">{{ props.action.school }}</div>
       </v-flex>
 
       <!-- description and higher level effects -->
-      <v-flex pt-3 class="subheading" v-for="d in props.action.desc">{{ d }}</v-flex>
-      <v-flex pt-3 class="subheading" v-if="props.action.higher_level">
-        <strong>At higher levels: </strong>{{ props.action.higher_level.join(' ') }}
+      <v-flex pt-3 class="subheading">{{ props.action.description }}</v-flex>
+      <v-flex pt-3 class="subheading" v-if="props.action.higher_levels">
+        <strong>At higher levels: </strong>{{ props.action.higher_levels }}
       </v-flex>
 
     </v-layout>

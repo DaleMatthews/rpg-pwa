@@ -6,14 +6,14 @@
         <v-card-title class="headline">New Action</v-card-title>
         <v-card-text>
           <v-select
-              :items="allSpells" item-value="url" item-text="name"
+              :items="$store.state.spells" return-object item-text="name"
               v-model="newSpell"
               label="Find Spell"
               autocomplete
           ></v-select>
         </v-card-text>
         <v-card-actions>
-          <v-btn :loading="gettingAction" @click="addNewAction(newSpell)">Save</v-btn>
+          <v-btn @click="addNewAction(newSpell)">Save</v-btn>
           <v-btn @click="showAddActionForm = false; newSpell = ''">Cancel</v-btn>
         </v-card-actions>
       </v-card>
@@ -54,7 +54,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-            <v-list-tile v-for="subItem in item.items" :key="subItem.name" @click="getAction(subItem, item)" v-ripple>
+            <v-list-tile v-for="subItem in item.items" :key="subItem.name" @click="setAction(subItem, item)" v-ripple>
               <v-list-tile-content>
                 <v-list-tile-title>{{ subItem.name }}</v-list-tile-title>
               </v-list-tile-content>
@@ -84,30 +84,26 @@
 </template>
 
 <script>
-  import axios from 'axios';
   import { find, groupBy, sortBy } from 'lodash';
+  import { getActionCategory } from '~/assets/utils';
   import ActionDisplay from '~/components/action-display';
 
   export default {
     components: { ActionDisplay },
-    async asyncData() {
-      // TODO get non-spells too
-      const { data } = await axios.get('http://www.dnd5eapi.co/api/spells');
-
-      return { allSpells: data.results || [] };
-    },
     data() {
       return {
         action: {},
         showAddActionForm: false,
         showDeleteForm: false,
         newSpell: '',
-        gettingAction: false,
       };
     },
     computed: {
       categories() {
-        const c = groupBy(sortBy(this.character.actions, a => a.name), a => a.category);
+        if (!this.character || !this.character.actions) return [{ title: 'Standard Actions', active: true, icon: 'fa-book', items: [] }];
+
+        const actions = this.character.actions.map(a => this.$store.state.spells[a]);
+        const c = groupBy(sortBy(actions, a => a.name), a => getActionCategory(a));
 
         return [
           // TODO create standard actions
@@ -123,24 +119,18 @@
       },
     },
     methods: {
-      getAction(action, category) {
+      setAction(action, category) {
         if (category) category.active = true;
-        if (action && action.desc) this.action = action;
-        else {
-          axios.get(`http://www.dnd5eapi.co/api/${action.path}/${action.index}`)
-            .then(({ data }) => {
-              if (data && data.desc) this.action = data;
-            });
-        }
+        this.action = action;
       },
-      addNewAction(actionUrl) {
-        this.gettingAction = true;
-        this.$store.dispatch('addActionToCharacter', { actionUrl, character: this.character })
-          .then((action) => {
-            this.gettingAction = false;
+      addNewAction(action) {
+        const actionIndex = this.$store.state.spells.findIndex(({ name }) => name === action.name);
+
+        this.$store.dispatch('addActionToCharacter', { actionIndex, character: this.character })
+          .then(() => {
             this.newSpell = '';
             this.showAddActionForm = false;
-            if (action) this.getAction(action, this.categories.find(c => c.title === action.category));
+            this.setAction(action, this.categories.find(c => c.title === getActionCategory(action)));
           });
       },
       deleteAction() {
