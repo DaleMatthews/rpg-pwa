@@ -19,9 +19,20 @@
       </v-card>
     </v-dialog>
 
-    <v-layout col justify-left align-top>
+    <v-dialog v-model="showDeleteForm" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Remove Action?</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click.native="showDeleteForm = false">Cancel</v-btn>
+          <v-btn color="error" flat @click.native="deleteAction">Remove</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
-      <v-flex d-flex xs3 pl-0 fill-height>
+    <v-layout>
+
+      <v-flex d-flex xs3>
 
         <v-list>
           <!-- TODO auto focus search input -->
@@ -50,17 +61,6 @@
         </v-list>
 
       </v-flex>
-
-      <v-dialog v-model="showDeleteForm" max-width="290">
-        <v-card>
-          <v-card-title class="headline">Remove Action?</v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn flat @click.native="showDeleteForm = false">Cancel</v-btn>
-            <v-btn color="error" flat @click.native="deleteAction">Remove</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
 
       <v-flex pa-4 xs9>
         <action-display :action="action">
