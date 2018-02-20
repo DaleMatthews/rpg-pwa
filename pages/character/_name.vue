@@ -57,7 +57,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn flat @click.native="showDeleteForm = false">Cancel</v-btn>
-            <v-btn color="error" flat @click.native="">Remove</v-btn>
+            <v-btn color="error" flat @click.native="deleteAction">Remove</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -140,7 +140,13 @@
           });
       },
       deleteAction() {
-        // TODO implement deleteAction
+        const actionIndex = this.$store.state.spells.findIndex(({ name }) => name === this.action.name);
+
+        this.$store.dispatch('deleteActionFromCharacter', { actionIndex, character: this.character })
+          .then(() => {
+            this.showDeleteForm = false;
+            this.setAction({});
+          });
       },
     },
   };

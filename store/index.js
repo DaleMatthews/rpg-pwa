@@ -24,14 +24,14 @@ export const mutations = {
     Object.assign(target, update);
   },
   addActionToCharacter(state, { actionIndex, character }) {
-    const { name } = character;
-    let i = state.characters.findIndex(c => c.name === name);
-    let char = { ...state.characters[i] };
+    let char = state.characters.find(c => c.name === character.name);
 
-    if (!char.actions.includes(actionIndex)) {
-      char.actions.push(actionIndex);
-      state.characters.splice(i, 1, char);
-    }
+    if (!char.actions.includes(actionIndex)) char.actions.push(actionIndex);
+  },
+  deleteActionFromCharacter(state, { actionIndex, character }) {
+    let char = state.characters.find(c => c.name === character.name);
+
+    if (char.actions.includes(actionIndex)) char.actions = char.actions.filter(a => a !== actionIndex);
   },
   addError(state, err) {
     state.errorText = err;
@@ -68,8 +68,13 @@ export const actions = {
 
     return localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
   },
-  addActionToCharacter({ commit, state, dispatch }, { actionIndex, character }) {
+  addActionToCharacter({ commit, state }, { actionIndex, character }) {
     commit('addActionToCharacter', { character, actionIndex });
+
+    return localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
+  },
+  deleteActionFromCharacter({ commit, state }, { actionIndex, character }) {
+    commit('deleteActionFromCharacter', { actionIndex, character });
 
     return localforage.setItem('characters', JSON.parse(JSON.stringify(state.characters)));
   },
