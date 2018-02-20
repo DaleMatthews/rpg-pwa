@@ -32,29 +32,16 @@
             <v-list-tile-content>Add New Action</v-list-tile-content>
           </v-list-tile>
 
-          <v-list-group v-for="item in categories" :value="item.active" :key="item.title">
-            <v-list-tile slot="item" @click="" :disabled="!item.items.length">
+          <v-list-group v-for="item in categories" :key="item.title" no-action :value="item.title === activeCategory">
+            <v-list-tile slot="activator" @click="" :disabled="!item.items.length">
               <v-list-tile-action>
                 <v-icon medium>{{ item.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
               </v-list-tile-content>
-              <v-list-tile-action>
-                <v-icon>keyboard_arrow_down</v-icon>
-              </v-list-tile-action>
             </v-list-tile>
-            <v-dialog v-model="showDeleteForm" max-width="290">
-              <v-card>
-                <v-card-title class="headline">Remove Action?</v-card-title>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn flat @click.native="showDeleteForm = false">Cancel</v-btn>
-                  <v-btn color="error" flat @click.native="">Remove</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-            <v-list-tile v-for="subItem in item.items" :key="subItem.name" @click="setAction(subItem, item)" v-ripple>
+            <v-list-tile v-for="subItem in item.items" :key="subItem.name" @click="setAction(subItem, item)" v-ripple :value="subItem.name === action.name">
               <v-list-tile-content>
                 <v-list-tile-title>{{ subItem.name }}</v-list-tile-title>
               </v-list-tile-content>
@@ -63,6 +50,17 @@
         </v-list>
 
       </v-flex>
+
+      <v-dialog v-model="showDeleteForm" max-width="290">
+        <v-card>
+          <v-card-title class="headline">Remove Action?</v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn flat @click.native="showDeleteForm = false">Cancel</v-btn>
+            <v-btn color="error" flat @click.native="">Remove</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
       <v-flex pa-4 xs9>
         <action-display :action="action">
@@ -84,7 +82,7 @@
 </template>
 
 <script>
-  import { find, groupBy, sortBy } from 'lodash';
+  import { find, map, sortBy } from 'lodash';
   import { getActionCategory } from '~/assets/utils';
   import ActionDisplay from '~/components/action-display';
 
@@ -96,31 +94,39 @@
         showAddActionForm: false,
         showDeleteForm: false,
         newSpell: '',
+        categories: [
+          // TODO create standard actions
+          { title: 'Standard Actions', icon: 'fa-book', items: [] },
+          { title: 'Actions', icon: 'fa-crosshairs', items: [] },
+          { title: 'Bonus Actions', icon: 'exposure_plus_1', items: [] },
+          { title: 'Reactions', icon: 'refresh', items: [] },
+          { title: 'Others', icon: 'timer', items: [] },
+        ],
       };
     },
+    watch: {
+      'character.actions': {
+        handler(values) {
+          if (!values) return;
+
+          let actions = sortBy(map(values, a => this.$store.state.spells[a]), a => a.name);
+          this.categories.forEach(c => {
+            c.items = actions.filter(a => c.title === getActionCategory(a));
+          });
+        },
+        immediate: true,
+      },
+    },
     computed: {
-      categories() {
-        if (!this.character || !this.character.actions) return [{ title: 'Standard Actions', active: true, icon: 'fa-book', items: [] }];
-
-        const actions = this.character.actions.map(a => this.$store.state.spells[a]);
-        const c = groupBy(sortBy(actions, a => a.name), a => getActionCategory(a));
-
-        return [
-          // TODO create standard actions
-          { title: 'Standard Actions', active: true, icon: 'fa-book', items: [] },
-          { title: 'Actions', active: false, icon: 'fa-crosshairs', items: c['Actions'] || [] },
-          { title: 'Bonus Actions', active: false, icon: 'exposure_plus_1', items: c['Bonus Actions'] || [] },
-          { title: 'Reactions', active: false, icon: 'refresh', items: c['Reactions'] || [] },
-          { title: 'Others', active: false, icon: 'timer', items: c['Others'] || [] },
-        ];
+      activeCategory() {
+        return getActionCategory(this.action);
       },
       character() {
         return find(this.$store.state.characters, { name: this.$route.params.name }) || {};
       },
     },
     methods: {
-      setAction(action, category) {
-        if (category) category.active = true;
+      setAction(action) {
         this.action = action;
       },
       addNewAction(action) {

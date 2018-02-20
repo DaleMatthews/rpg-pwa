@@ -41,9 +41,9 @@
       </a>
     </v-footer>
 
-    <v-snackbar :timeout="20000" multi-line color="info" v-model="snackbar">
+    <v-snackbar :timeout="20000" color="info" v-model="snackbar">
       Saving is currently disabled; your data will be lost upon reloading
-      <v-btn @click.native="snackbar = false">Bummer</v-btn>
+      <v-btn color="grey darken-4" flat @click.native="snackbar = false">Bummer</v-btn>
     </v-snackbar>
 
   </v-app>
