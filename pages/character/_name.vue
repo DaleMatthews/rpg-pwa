@@ -30,11 +30,11 @@
       </v-card>
     </v-dialog>
 
-    <v-layout>
+    <v-layout wrap>
 
-      <v-flex d-flex xs3>
+      <v-flex xs12 md4 :class="{ 'hidden-sm-and-down': action && action.description }">
 
-        <v-list>
+        <v-list class="fill-height">
           <!-- TODO auto focus search input -->
           <v-list-tile class="light-blue" @click="showAddActionForm = true" v-ripple>
             <v-list-tile-action>
@@ -62,15 +62,27 @@
 
       </v-flex>
 
-      <v-flex pa-4 xs9>
+      <v-flex pa-4 xs12 md8 :class="{ 'hidden-sm-and-down': action && !action.description }">
         <action-display :action="action">
           <v-layout slot="header">
             <v-flex>
-              <div class="display-1">{{ action.name }}</div>
+              <div class="display-1 action-display__header">{{ action.name }}</div>
             </v-flex>
             <v-layout column align-end>
               <v-flex>
-                <v-btn v-if="action" @click.stop="showDeleteForm = true">remove</v-btn>
+                <v-menu bottom left>
+                  <v-btn slot="activator" icon>
+                    <v-icon>more_vert</v-icon>
+                  </v-btn>
+                  <v-list>
+                    <v-list-tile @click="setAction({})">
+                      <v-list-tile-title>Hide</v-list-tile-title>
+                    </v-list-tile>
+                    <v-list-tile @click="showDeleteForm = true">
+                      <v-list-tile-title>Delete</v-list-tile-title>
+                    </v-list-tile>
+                  </v-list>
+                </v-menu>
               </v-flex>
             </v-layout>
           </v-layout>>
@@ -151,3 +163,27 @@
     },
   };
 </script>
+
+<style>
+.action-display__header {
+  overflow-wrap: break-word;
+}
+
+@media only screen and (max-width: 450px) {
+  .action-display__header {
+    max-width: 300px;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .action-display__header {
+    max-width: 250px;
+  }
+}
+
+@media only screen and (max-width: 330px) {
+  .action-display__header {
+    max-width: 200px;
+  }
+}
+</style>

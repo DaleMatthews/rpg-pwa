@@ -7,27 +7,27 @@
 
       <!-- spell properties -->
       <v-flex pa-2 xs4 md3>
-        <div class="title">Level</div>
+        <div class="subheading light-blue--text">Level</div>
         <div class="body-1">{{ props.action.level }}</div>
       </v-flex>
       <v-flex pa-2 xs4 md3>
-        <div class="title">Casting Time</div>
+        <div class="subheading light-blue--text">Casting Time</div>
         <div class="body-1">{{ props.action.casting_time }}</div>
       </v-flex>
       <v-flex pa-2 xs4 md3>
-        <div class="title">Range</div>
+        <div class="subheading light-blue--text">Range</div>
         <div class="body-1">{{ props.action.range }}</div>
       </v-flex>
       <v-flex pa-2 xs4 md3>
-        <div class="title">Components</div>
+        <div class="subheading light-blue--text">Components</div>
         <div class="body-1">{{ props.action.components.raw }}</div>
       </v-flex>
       <v-flex pa-2 xs4 md3>
-        <div class="title">Duration</div>
+        <div class="subheading light-blue--text">Duration</div>
         <div class="body-1">{{ props.action.duration }}</div>
       </v-flex>
       <v-flex pa-2 xs4 md3>
-        <div class="title">School</div>
+        <div class="subheading light-blue--text">School</div>
         <div class="body-1">{{ props.action.school }}</div>
       </v-flex>
 
