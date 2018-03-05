@@ -25,6 +25,16 @@ module.exports = {
   */
   loading: { color: '#3B8070' },
   /*
+  ** Generate configuration
+  */
+  // TODO cannot generate dynamics params if said params are in user storage (i.e. char name)
+  generate: {
+    dir: 'dist',
+    routes: [
+      '/character/Barry',
+    ],
+  },
+  /*
   ** Build configuration
   */
   build: {
