@@ -31,7 +31,8 @@ module.exports = {
   generate: {
     dir: 'dist',
     routes: [
-      '/character/Barry',
+      '/character/barry',
+      'about',
     ],
   },
   /*

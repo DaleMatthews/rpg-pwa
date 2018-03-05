@@ -21,7 +21,7 @@
       </v-flex>
 
       <v-flex xs12 sm6 md4 lg3 v-for="c in $store.state.characters" :key="c.name">
-        <v-card hover height="330px" router :to="'/character/' + c.name">
+        <v-card hover height="330px" router :to="'/character/' + c.name.toLowerCase()">
           <v-card-media :src="c.img" height="270px">
             <v-layout column align-end>
               <v-flex>

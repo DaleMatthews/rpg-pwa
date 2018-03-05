@@ -134,7 +134,7 @@
         return getActionCategory(this.action);
       },
       character() {
-        return find(this.$store.state.characters, { name: this.$route.params.name }) || {};
+        return find(this.$store.state.characters, c => c.name.toLowerCase() === this.$route.params.name) || {};
       },
     },
     methods: {
