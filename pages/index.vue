@@ -48,6 +48,9 @@
       character: null,
       showCharacterForm: false,
     }),
+    created() {
+      console.log('root page created');
+    },
     methods: {
       newCharacter() {
         this.character = null;

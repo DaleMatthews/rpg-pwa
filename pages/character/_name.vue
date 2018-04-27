@@ -116,6 +116,9 @@
         ],
       };
     },
+    created() {
+      console.log('_name page created');
+    },
     watch: {
       'character.actions': {
         handler(values) {

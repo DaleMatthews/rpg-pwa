@@ -32,7 +32,6 @@ module.exports = {
     dir: 'dist',
     routes: [
       '/character/barry',
-      'about',
     ],
   },
   /*

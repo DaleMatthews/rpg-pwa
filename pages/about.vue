@@ -11,3 +11,11 @@
     </v-layout>
   </v-container>
 </template>
+
+<script>
+  export default {
+    created() {
+      console.log('about page created');
+    },
+  };
+</script>
